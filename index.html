@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>七年级英语速记词卡</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+    .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; text-align: center; }
+    .image { width: 100%; max-height: 200px; object-fit: contain; margin-bottom: 15px; }
+    .choices button { margin: 5px; padding: 10px 20px; border: none; border-radius: 8px; background: #d0e6ff; cursor: pointer; }
+    .choices button.correct { background-color: #a4f3a4; }
+    .choices button.incorrect { background-color: #f3a4a4; }
+    .next-btn { margin-top: 15px; padding: 10px 25px; border: none; border-radius: 8px; background: #4a90e2; color: white; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="word">Word</h2>
+    <p id="phonetic">[phonetic]</p>
+    <img id="image" class="image" src="" alt="word image">
+    <p id="memoryHint">Memory Hint</p>
+    <p><i id="example">Example sentence</i></p>
+    <div class="choices" id="choices"></div>
+    <button class="next-btn" onclick="nextCard()">下一词</button>
+  </div>
+
+  <script>
+    const cards = [
+      {
+        word: "one another",
+        phonetic: "[w\u028cn \u0259'n\u028c\u00f0\u0259]",
+        definition: "互相",
+        memoryHint: "两个人互相鞠躬表示礼貌",
+        image: "https://via.placeholder.com/400x200?text=Mutual+Respect",
+        example: "They helped one another with their homework.",
+        choices: ["互相", "软毛", "减少", "弄死"],
+        correct: "互相"
+      },
+      {
+        word: "afraid",
+        phonetic: "[\u0259'fre\u026ad]",
+        definition: "害怕的",
+        memoryHint: "a + fray（争吵）→ 害怕争吵",
+        image: "https://via.placeholder.com/400x200?text=Scared+Face",
+        example: "He is afraid of the dark.",
+        choices: ["害怕的", "开心的", "生气的", "困惑的"],
+        correct: "害怕的"
+      }
+      // 可继续添加更多单词卡
+    ];
+
+    let current = 0;
+
+    function loadCard() {
+      const card = cards[current];
+      document.getElementById('word').innerText = card.word;
+      document.getElementById('phonetic').innerText = card.phonetic;
+      document.getElementById('image').src = card.image;
+      document.getElementById('memoryHint').innerText = card.memoryHint;
+      document.getElementById('example').innerText = card.example;
+
+      const choicesDiv = document.getElementById('choices');
+      choicesDiv.innerHTML = '';
+      card.choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.innerText = choice;
+        btn.onclick = () => {
+          if (choice === card.correct) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('incorrect');
+          }
+        };
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    function nextCard() {
+      current = (current + 1) % cards.length;
+      loadCard();
+    }
+
+    window.onload = loadCard;
+  </script>
+</body>
+</html>
